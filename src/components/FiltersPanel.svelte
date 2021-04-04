@@ -11,8 +11,9 @@
     const flipDurationMs = 100;
 
     function addFilter() {
+        nextId++;
         filters.update(filters => {
-            return [...filters, new FilterType(nextId++, "", "", "#e0e0e0")];
+            return [...filters, new FilterType(nextId, "", "", false, false, "#e0e0e0", true, true)];
         });
     }
 

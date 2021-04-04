@@ -7,10 +7,9 @@
 	const dispatch = createEventDispatcher();
 
     export let filter: Filter;
-    export let editMode: boolean = false;
 
-    let fgColor: string;
-    $: fgColor = goodContrastColor(hexColor2rgb(filter.color));
+    $: fgColor = filter.enabled ? goodContrastColor(hexColor2rgb(filter.color)) : "inherit";
+    $: bgColor = filter.enabled ? filter.color : "transparent";
 
 	function remove() {
 		dispatch('remove', {
@@ -20,20 +19,33 @@
 
 </script>
 
-<div class="filter" style="background-color:{filter.color}; color:{fgColor};">
+<div class="filter" style="background-color:{bgColor}; color:{fgColor};">
     <div class="filter-header">
-        <button ><img src="/media/eye.svg" alt="Enable/disable filter"></button>
-        <span class="name">{filter.name}</span>
-        <input class="color" type="color" bind:value={filter.color} /> 
-        <input class="regex" type="text"  placeholder="Regex" bind:value={filter.regex} />
-        <button on:click={() => editMode = !editMode} ><img src="/media/edit.svg" alt="Modify filter"></button>
-        <button on:click={remove}><img src="/media/trash.svg" alt="Remove the filter"></button>
+        <button on:click={() => filter.enabled = !filter.enabled} >
+            <img src={filter.enabled ? "/media/eye.svg" : "/media/eye-closed.svg"}  alt="Enable/disable filter">
+        </button>
+        <span class="name">{filter.description}</span>
+        <span class="pattern">{filter.pattern}</span>
+        <button on:click={() => filter.isEdited = !filter.isEdited} >
+            <img src="/media/edit.svg" alt="Modify filter">
+        </button>
+        <button on:click={remove}>
+            <img src="/media/trash.svg" alt="Remove the filter">
+        </button>
     </div>
-    {#if editMode}
+    {#if filter.isEdited}
         <div class="filter-edit" transition:slide>
-            <label for="name">Name</label>
-            <input type="text" class="input-name" placeholder="filter name" bind:value={filter.name} />
-            <button on:click={() => editMode = false} >Ok</button>
+            <div class="filter-edit-line">
+                <label for="description">Description</label>
+                <input name="description" type="text" class="input-name" placeholder="filter descritption (optional)" bind:value={filter.description} />
+                <label for="color">Color</label>
+                <input name="color" class="color" type="color" bind:value={filter.color} /> 
+            </div>
+            <div class="filter-edit-line">
+                <label for="pattern">Pattern</label>
+                <input name="pattern" class="pattern" type="text"  placeholder="enter pattern" bind:value={filter.pattern} />
+            </div>
+            <button on:click={() => filter.isEdited = false} >Ok</button>
         </div>
     {/if}
 </div>
@@ -52,16 +64,25 @@
     .filter-header:hover button {
         visibility: visible;
     }
-    .filter-edit{
+    .filter-edit {
+        /* display: flex;
+        text-align: left;
+        align-items: center;
+        justify-content: center;
+        margin: 1em; */
+    }
+    .filter-edit-line {
         display: flex;
         text-align: left;
         align-items: center;
         justify-content: center;
         margin: 1em;
+        /* padding: 0.3em; */
     }
     .name {
-        width: 10%;
+        width: 30%;
         font-style: italic;
+        font-weight: bold;
         margin-left: 0.4em;
     }
     .color {
@@ -70,7 +91,8 @@
         margin: 0.1em 0.6em;
         padding: 0.1em;
     }
-    .regex {
+    .pattern {
+        flex-grow: 2;
         margin: 0.1em 0.6em;
     }
     button {

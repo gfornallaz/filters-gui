@@ -4,10 +4,10 @@ import { Filter } from "../models/Filter";
 class FilterStore {
     constructor(
         public filters: Writable<Filter[]> = writable<Filter[]>([
-            new Filter(1, "f1", "aaa", "#B1D7E6"),
-            new Filter(2, "f2", "bbb", "#909090"),
-            new Filter(3, "f3", "ccc", "#0080f0"),
-            new Filter(4, "f4", "ddd", "#F8FF2B")
+            new Filter(1, "f1 very long long description", "aaa", false, false, "#85FFC0", true, false, 0),
+            new Filter(2, "f2 long description", "bbb bbb", false, true, "#FFA3A3", false, false, 0),
+            new Filter(3, "f3 desc", "ccc cccccc cccc", false, true, "#0080f0"),
+            new Filter(4, "f4", "ddd ddddddddddddd ddd d dd", true, false, "#F8FF2B")
         ])) {
         }
 
