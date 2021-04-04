@@ -34,6 +34,7 @@
         </button>
         <span class="name">{filter.description}</span>
         <span class="pattern">{filter.pattern}</span>
+        <span class="hits">{filter.hits}</span>
         <button on:click={() => filter.isEdited = !filter.isEdited} >
             <EditSvg color="{fgColor}"/>
         </button>
@@ -53,14 +54,27 @@
                 <label for="pattern">Pattern</label>
                 <input name="pattern" class="pattern" type="text"  placeholder="enter pattern" bind:value={filter.pattern} />
             </div>
-            <button on:click={() => filter.isEdited = false} >Ok</button>
+            <div class="filter-edit-line">
+                <label for="isRegex">
+                    <input name="isRegex" type=checkbox bind:checked={filter.isRegex}>
+                    Regex
+                </label>
+                <label for="isCaseSensitive">
+                    <input name="isCaseSensitive" type=checkbox bind:checked={filter.isCaseSensitive}>
+                    Case sensitive
+                </label>
+                <span class="fill"></span>
+                <button class="text-button" on:click={() => filter.isEdited = false} >Ok</button>
+            </div>
         </div>
     {/if}
 </div>
 
 <style>
     .filter {
+        border: 1px solid lightgray;
         border-radius: 10px;
+        margin: 1px;
     }
     .filter-header {
         display: flex;
@@ -84,8 +98,11 @@
         text-align: left;
         align-items: center;
         justify-content: center;
-        margin: 1em;
-        /* padding: 0.3em; */
+        /* margin: 0.2em 1em 0.2em 1em; */
+        padding: 0.1em;
+    }
+    input, label {
+        margin: 0.3em;
     }
     .name {
         width: 30%;
@@ -100,11 +117,17 @@
         padding: 0.1em;
     }
     .pattern {
-        flex-grow: 2;
+        flex-grow: 1;
         margin: 0.1em 0.6em;
+    }
+    .fill {
+        flex-grow: 1;
     }
     button {
         width: fit-content;
+    }
+    .text-button {
+        margin: 0.3em;
     }
     .filter-header button {
         visibility: hidden;

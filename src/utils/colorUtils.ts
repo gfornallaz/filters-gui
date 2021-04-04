@@ -17,7 +17,7 @@ export function hexColor2rgb(color: string) {
 export function getBrightness(rgb: number[]) {
 
     // http://www.w3.org/TR/AERT#color-contrast
-    return Math.round(
+    return Math.round((
         (rgb[0] * 299) +
         (rgb[1] * 587) +
         (rgb[2] * 114)) / 1000);

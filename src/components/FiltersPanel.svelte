@@ -11,11 +11,17 @@
     const { filters } = filterStore;
     let nextId = 5;
     const flipDurationMs = 100;
+    const buttonSize = 25;
+
+    function getRandomColor() {
+        const color = Math.floor(Math.random()*16777215).toString(16);
+        return "#" + color;
+    }
 
     function addFilter() {
         nextId++;
         filters.update(filters => {
-            return [...filters, new FilterType(nextId, "", "", false, false, "#e0e0e0", true, true)];
+            return [...filters, new FilterType(nextId, "", "", false, false, getRandomColor(), true, true)];
         });
     }
 
@@ -40,13 +46,13 @@
 
 <div class="filters">
 
-    <h1>Filters: </h1>
+    <h1>Line filters</h1>
 
     <button on:click={addFilter}>
-        <AddSvg width="25" height="25" />
+        <AddSvg width="{buttonSize}" height="{buttonSize}"/>
     </button>
     <button>
-        <FilterSvg width="25" height="25"/>
+        <FilterSvg width="{buttonSize}" height="{buttonSize}"/>
     </button>
 </div>
 
