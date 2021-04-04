@@ -3,6 +3,10 @@
     import { hexColor2rgb, goodContrastColor } from "../utils/colorUtils";
 	import { createEventDispatcher } from 'svelte';
     import { slide } from 'svelte/transition';
+    import EditSvg from "../media/edit.svg";
+    import EnabledSvg from "../media/eye.svg";
+    import DisabledSvg from "../media/eye-closed.svg";
+    import DeleteSvg from "../media/trash.svg";
 
 	const dispatch = createEventDispatcher();
 
@@ -22,15 +26,19 @@
 <div class="filter" style="background-color:{bgColor}; color:{fgColor};">
     <div class="filter-header">
         <button on:click={() => filter.enabled = !filter.enabled} >
-            <img src={filter.enabled ? "/media/eye.svg" : "/media/eye-closed.svg"}  alt="Enable/disable filter">
+            {#if filter.enabled}
+                <EnabledSvg color="{fgColor}"/>
+            {:else}
+                <DisabledSvg color="{fgColor}"/>
+            {/if}
         </button>
         <span class="name">{filter.description}</span>
         <span class="pattern">{filter.pattern}</span>
         <button on:click={() => filter.isEdited = !filter.isEdited} >
-            <img src="/media/edit.svg" alt="Modify filter">
+            <EditSvg color="{fgColor}"/>
         </button>
         <button on:click={remove}>
-            <img src="/media/trash.svg" alt="Remove the filter">
+            <DeleteSvg color="{fgColor}"/>
         </button>
     </div>
     {#if filter.isEdited}

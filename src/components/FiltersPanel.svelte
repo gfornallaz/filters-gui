@@ -5,6 +5,8 @@
     import { each } from "svelte/internal";
     import { filterStore } from "../stores/FilterStore";
     import Filter from './Filter.svelte';
+    import AddSvg from "../media/add.svg";
+    import FilterSvg from "../media/filter.svg";
 
     const { filters } = filterStore;
     let nextId = 5;
@@ -36,10 +38,17 @@
 
 </script>
 
-<h1>Filters: 
-    <button on:click={addFilter}><img src="/media/add.svg" alt="Add a filter"></button>
-    <button><img src="/media/filter.svg" alt="Apply filters"></button>
-</h1>
+<div class="filters">
+
+    <h1>Filters: </h1>
+
+    <button on:click={addFilter}>
+        <AddSvg width="25" height="25" />
+    </button>
+    <button>
+        <FilterSvg width="25" height="25"/>
+    </button>
+</div>
 
 <section use:dndzone="{{items: $filters, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
     {#each $filters as filter (filter.id)}
@@ -48,3 +57,15 @@
         </div>
     {/each}
 </section>
+
+<style>
+    .filters {
+        display: flex;
+    }
+    h1 {
+        flex-grow: 1;
+    }
+    button {
+        width: fit-content;
+    }
+</style>
